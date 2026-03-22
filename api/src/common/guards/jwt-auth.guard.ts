@@ -1,0 +1,21 @@
+import {
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { TokenExpiredError } from '@nestjs/jwt';
+import { AuthGuard } from '@nestjs/passport';
+
+@Injectable()
+export class JwtAuthGuard extends AuthGuard('jwt') {
+  handleRequest(err: any, user: any, info: any) {
+    if (info instanceof TokenExpiredError) {
+      throw new UnauthorizedException('Токен истёк');
+    }
+
+    if (err || !user) {
+      throw new UnauthorizedException('Вы не авторизованы');
+    }
+
+    return user;
+  }
+}
