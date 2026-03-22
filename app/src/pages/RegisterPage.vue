@@ -2,7 +2,9 @@
 </script>
 
 <template>
-  <router-view />
+    <div class="box">
+        <h1>Register</h1>
+    </div>
 </template>
 
 <style scoped></style>

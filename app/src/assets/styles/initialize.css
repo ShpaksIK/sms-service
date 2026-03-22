@@ -1,0 +1,259 @@
+@font-face {
+    font-family: 'Moderustic';
+    src: url('./../fonts/Moderustic-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Moderustic';
+    src: url('./../fonts/Moderustic-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Moderustic';
+    src: url('./../fonts/Moderustic-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'MontserratAlternates';
+    src: url('./../fonts/MontserratAlternates-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* Цвета */
+    --color-text-title: #000000;
+    --color-text-base: #000000;
+    --color-text-transparent: rgba(0, 0, 0, 0.5);
+    --color-text-link: #2b4a4a;
+    --color-text-link-hover: #223838;
+    --color-text-error: #842029;
+
+    --color-danger: #e45959;
+    --color-danger-hover: #c24e4e;
+    
+    --color-background: #e7e6e6;
+    --color-block: #ffffff;
+
+    --color-element: #69a4a2;
+    --color-element-hover: #296a6b;
+    --color-element-transparent: rgba(106, 164, 162, 0.2);
+    --color-line: #e7e6e6;
+    --color-line-hover: #dddddd;
+    --color-element-secondary: #a4a4a4;
+
+    /* Шрифты */
+    --font-family-base: 'Moderustic', sans-serif;
+    --font-family-accent: 'MontserratAlternates', sans-serif;
+
+    /* Размер шрифтов */
+    --font-size-title: clamp(24px, 2.3rem, 32px);
+    --font-size-accent: clamp(16px, 1.4rem, 28px);
+    --font-size-text: clamp(14px, 1rem, 24px);
+    --font-size-small: clamp(10px, 0.8rem, 16px);
+
+    /* Начертание шрифта */
+    --font-weight-lighter: 300;
+    --font-weight-base: 400;
+    --font-weight-bold: 600;
+    --font-weight-title: 700;
+
+    /* Другие параметры */
+    --container-width: 1300px;
+    --transition-duration: 0.2s;
+    --border-radius-large: 10px;
+    --border-radius-small: 5px;
+    --media-width-phone: 700px;
+}
+
+body {
+    font-family: var(--font-family-base);
+    font-weight: var(--font-weight-base);
+    font-size: var(--font-size-text);
+    color: var(--color-text-base);
+    background-color: var(--color-background);
+    transition: var(--transition-duration);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: var(--font-size-title);
+    font-weight: 700;
+    margin: 0;
+}
+
+p {
+    margin: 0;
+}
+
+a, button, input, textarea {
+    transition: var(--transition-duration);
+}
+
+a {
+    color: var(--color-text-link);
+    text-decoration: none;
+}
+
+.container {
+    max-width: var(--container-width);
+    margin-inline: auto;
+}
+
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.max-width {
+    width: 100%;
+}
+
+.alert {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.svg-hover:hover {
+    &, & g, & path {
+        stroke-width: 2;
+    }
+}
+
+.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-element-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hex-to-rgba(#a4a4a4, 0.5);
+}
+
+.btn {
+    padding: 5px 10px;
+    background-color: var(--color-element);
+    border-radius: var(--border-radius-small);
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: var(--color-element-hover);
+}
+
+.btn:disabled {
+    user-select: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.btn:disabled:hover {
+    background-color: var(--color-element);
+}
+
+.btn_danger {
+    padding: 5px 10px;
+    background-color: var(--color-danger);
+    border-radius: var(--border-radius-small);
+    transition: all 0.2s;
+    cursor: pointer;
+    color: #fff;
+    border: none;
+}
+
+.btn_danger:hover {
+    background-color: var(--color-danger-hover);
+}
+
+.btn_secondary {
+    padding: 5px 10px;
+    background-color: transparent;
+    border-radius: var(--border-radius-small);
+    border: 1px solid var(--color-element);
+    transition: all 0.2s;
+    cursor: pointer;
+    color: var(--color-element);
+}
+
+.btn_secondary:hover {
+    border-color: var(--color-element-hover);
+    color: var(--color-element-hover);
+}
+
+.link, .btn-link {
+    color: var(--color-element);
+    text-decoration: none;
+    transition: all var(--transition-duration);
+}
+
+.link:hover, .btn-link:hover {
+    color: var(--color-element-hover);
+}
+
+.btn-link {
+    border: none;
+    outline: none;
+    background-color: transparent;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form__control {
+    display: flex;
+    flex-direction: column;
+}
+
+.form__control label {
+    font-size: var(--font-size-small);
+    color: var(--color-text-base);
+}
+
+.form__control input {
+    padding: 8px 10px;
+    font-size: var(--font-family-base);
+    border: 1px solid var(--color-element);
+    outline: none;
+    border-radius: var(--border-radius-small);
+}
+
+.form__control input:focus {
+    border-color: var(--color-element-hover);
+}
+
+.form__error {
+    color: var(--color-text-error);
+}
