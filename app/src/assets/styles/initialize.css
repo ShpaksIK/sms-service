@@ -240,6 +240,7 @@ a {
 .form__control label {
     font-size: var(--font-size-small);
     color: var(--color-text-base);
+    text-align: left;
 }
 
 .form__control input {

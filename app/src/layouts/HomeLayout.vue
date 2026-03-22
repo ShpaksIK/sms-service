@@ -1,6 +1,17 @@
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
 import AppNav from '@/components/AppNav.vue';
+import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+onMounted(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        router.push('/sign-in');
+    }
+});
 </script>
 
 <template>
