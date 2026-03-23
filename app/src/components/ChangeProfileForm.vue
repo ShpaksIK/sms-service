@@ -1,32 +1,32 @@
 <script setup lang="ts">
 import { useUserStore } from '@/stores/user';
-import { reactive, computed } from 'vue';
+import { computed, watch, ref } from 'vue';
 
 const userStore = useUserStore();
-
-const firstName = computed(() => userStore.firstName);
-const email = computed(() => userStore.email);
 
 const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const formData = reactive({
-  firstName,
-  email,
+const formData = ref({
+  firstName: userStore.firstName,
+  email: userStore.email,
 });
 
 const isFormValid = computed(() => {
-  return formData.firstName.length >= 2 && /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(formData.email);
+  return (
+    formData.value.firstName.length >= 2 &&
+    /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(formData.value.email)
+  );
 });
 
 const handleSubmit = async () => {
   if (!isFormValid.value) return;
-  console.log(formData);
+
   try {
     await userStore.updateUser({
-      firstName: formData.firstName,
-      email: formData.email,
+      firstName: formData.value.firstName,
+      email: formData.value.email,
     });
     emit('close');
   } catch (error) {
@@ -37,6 +37,16 @@ const handleSubmit = async () => {
 const handleCancel = () => {
   emit('close');
 };
+
+watch(
+  () => ({
+    firstName: userStore.firstName,
+    email: userStore.email,
+  }),
+  (newValues) => {
+    formData.value = { ...newValues };
+  },
+);
 </script>
 
 <template>
