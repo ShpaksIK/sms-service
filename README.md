@@ -15,3 +15,40 @@
 ### Интеграция
 - Для разработчиков предусмотрено API
 - Кроссплатформенность за счет веб-версии на Vue и мобильного приложения на React Native
+
+## Запуск проекта
+1. Клонируйте репозиторий
+```bash
+git clone https://github.com/ShpaksIK/sms-service.git
+cd sms-service
+```
+
+2. Установите зависимости для backend, примените миграции и запустите
+```bash
+cd api
+cp .env.example .env
+npm install
+npm run migrate:up
+npm run start
+```
+
+3. Установите зависимости для frontend и запустите
+```bash
+cd app
+npm install
+npm run dev
+```
+
+## Миграция базы данных
+1. Перейдите в директорию api: `cd api`
+2. Создайте / примените / откатите миграцию
+```bash
+# Применить миграции
+npm run migrate:up
+
+# Откатить последнюю миграцию
+npm run migrate:down
+
+# Создать новую миграцию
+npm run migrate:create <name>
+```
