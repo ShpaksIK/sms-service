@@ -5,35 +5,35 @@ const route = useRoute();
 
 const isActive = (path: string) => {
   return route.path === path;
-}
+};
 </script>
 
 <template>
   <nav class="nav">
-    <router-link
-      :to="{name: 'General'}"
-      class="nav__title"
-    >
+    <router-link :to="{ name: 'General' }" class="nav__title">
       <h1>SMS Сервис</h1>
     </router-link>
-    
-    <router-link
-      :to="{name: 'General'}"
-      class="nav__link"
-      :class="{'nav__link_active': isActive('/')}"
-    >Главная</router-link>
 
     <router-link
-      :to="{name: 'Messages'}"
+      :to="{ name: 'General' }"
       class="nav__link"
-      :class="{'nav__link_active': isActive('/sms')}"
-    >SMS Сообщения</router-link>
+      :class="{ nav__link_active: isActive('/') }"
+      >Главная</router-link
+    >
 
     <router-link
-      :to="{name: 'Profile'}"
+      :to="{ name: 'Messages' }"
       class="nav__link"
-      :class="{'nav__link_active': isActive('/profile')}"
-    >Профиль</router-link>
+      :class="{ nav__link_active: isActive('/sms') }"
+      >SMS Сообщения</router-link
+    >
+
+    <router-link
+      :to="{ name: 'Profile' }"
+      class="nav__link"
+      :class="{ nav__link_active: isActive('/profile') }"
+      >Профиль</router-link
+    >
   </nav>
 </template>
 

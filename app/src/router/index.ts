@@ -11,27 +11,27 @@ const router = createRouter({
     {
       path: '/sign-in',
       name: 'Login',
-      component: LoginPage
+      component: LoginPage,
     },
     {
       path: '/sign-up',
       name: 'Registration',
-      component: RegisterPage
+      component: RegisterPage,
     },
     {
       path: '/',
       name: 'General',
-      component: GeneralPage
+      component: GeneralPage,
     },
     {
       path: '/sms',
       name: 'Messages',
-      component: MessagePage
+      component: MessagePage,
     },
     {
       path: '/profile',
       name: 'Profile',
-      component: ProfilePage
+      component: ProfilePage,
     },
   ],
 });

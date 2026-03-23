@@ -1,24 +1,27 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
+import { computed } from 'vue';
 
+const userStore = useUserStore();
+
+const firstName = computed(() => userStore.firstName);
+const email = computed(() => userStore.email);
 </script>
 
 <template>
   <header class="header">
     <div class="header__user">
       <div class="header__user__info">
-        <b>Максим Иосипчук</b>
-        <p>test@mail.ru</p>
+        <b>{{ firstName }}</b>
+        <p>{{ email }}</p>
       </div>
-      <button class="header__user__button">
-        
-      </button>
     </div>
   </header>
 </template>
 
 <style scoped>
 .header {
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: var(--border-radius-large);
   background-color: var(--color-block);
   display: flex;

@@ -1,46 +1,49 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch } from 'vue';
 
 const props = defineProps<{
-  modelValue?: boolean
-  title?: string
-  closeOnOverlayClick?: boolean
-}>()
+  modelValue?: boolean;
+  title?: string;
+  closeOnOverlayClick?: boolean;
+}>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: boolean): void
-  (e: 'open'): void
-  (e: 'close'): void
-}>()
+  (e: 'update:modelValue', value: boolean): void;
+  (e: 'open'): void;
+  (e: 'close'): void;
+}>();
 
-const isOpen = ref(props.modelValue || false)
+const isOpen = ref(props.modelValue || false);
 
-watch(() => props.modelValue, (newVal) => {
-  isOpen.value = newVal
-})
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    isOpen.value = newVal;
+  },
+);
 
 watch(isOpen, (newVal) => {
-  emit('update:modelValue', newVal)
+  emit('update:modelValue', newVal);
   if (newVal) {
-    emit('open')
-    document.body.style.overflow = 'hidden'
+    emit('open');
+    document.body.style.overflow = 'hidden';
   } else {
-    emit('close')
-    document.body.style.overflow = ''
+    emit('close');
+    document.body.style.overflow = '';
   }
-})
+});
 
 const close = () => {
-  isOpen.value = false
-}
+  isOpen.value = false;
+};
 
 const handleOverlayClick = () => {
   if (props.closeOnOverlayClick !== false) {
-    close()
+    close();
   }
-}
+};
 
-defineExpose({ close, open: () => isOpen.value = true })
+defineExpose({ close, open: () => (isOpen.value = true) });
 </script>
 
 <template>
@@ -51,10 +54,10 @@ defineExpose({ close, open: () => isOpen.value = true })
           <h3>{{ title }}</h3>
         </slot>
         <button class="btn__close" @click="close">
-            <img src="@/assets/svg/close.svg" alt="Закрыть">
+          <img src="@/assets/svg/close.svg" alt="Закрыть" />
         </button>
       </div>
-      
+
       <div class="modal__body">
         <slot></slot>
       </div>
@@ -106,7 +109,7 @@ defineExpose({ close, open: () => isOpen.value = true })
 }
 
 .btn__close img {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 </style>
