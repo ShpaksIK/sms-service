@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
@@ -20,7 +29,10 @@ export class UserController {
   @Patch()
   @UseGuards(JwtAuthGuard)
   @ResponseMessage('Данные успешно обновлены')
-  async update(@CurrentUser() user: RequestUser, @Body() updateUserDto: UpdateUserDto) {
+  async update(
+    @CurrentUser() user: RequestUser,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return await this.userService.update(user.userId, updateUserDto);
   }
 

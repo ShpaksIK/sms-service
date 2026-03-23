@@ -1,16 +1,26 @@
-import { Inject, Injectable, NotFoundException, UseGuards } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  NotFoundException,
+  UseGuards,
+} from '@nestjs/common';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { DatabaseService } from 'src/database/database.service';
 import { camelToSnakeFields } from 'src/utils/rename-fields';
 
 @Injectable()
 export class UserService {
-  constructor (@Inject(DatabaseService) private readonly databaseService: DatabaseService) {}
+  constructor(
+    @Inject(DatabaseService) private readonly databaseService: DatabaseService,
+  ) {}
 
   async getMe(userId: string) {
-    const data = await this.databaseService.query(`SELECT id, email, first_name as "firstName", 
+    const data = await this.databaseService.query(
+      `SELECT id, email, first_name as "firstName", 
       fcm_token as "fcmToken", created_at as "createdAt", updated_at as "updatedAt"
-      FROM "user" WHERE id = $1`, [userId]);
+      FROM "user" WHERE id = $1`,
+      [userId],
+    );
 
     if (!data.rows[0]) {
       throw new NotFoundException('Пользователь не найден');

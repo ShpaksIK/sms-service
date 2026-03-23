@@ -12,7 +12,7 @@ async function bootstrap() {
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
-  
+
   app.use(cookieParser());
 
   app.useGlobalFilters(new AllExceptionsFilter());

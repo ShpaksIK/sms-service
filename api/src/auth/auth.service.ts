@@ -65,12 +65,7 @@ export class AuthService {
     }
 
     const tokens = await this.generateTokens(user.id, user.login);
-    await this.saveRefreshToken(
-      user.id,
-      tokens.refresh_token,
-      userAgent,
-      ip,
-    );
+    await this.saveRefreshToken(user.id, tokens.refresh_token, userAgent, ip);
 
     return tokens;
   }
@@ -127,10 +122,7 @@ export class AuthService {
         [refreshToken],
       );
 
-      const tokens = await this.generateTokens(
-        session.id_user,
-        session.email,
-      );
+      const tokens = await this.generateTokens(session.id_user, session.email);
 
       await this.saveRefreshToken(
         session.id_user,
@@ -145,10 +137,7 @@ export class AuthService {
     }
   }
 
-  private async generateTokens(
-    userId: number,
-    email: string,
-  ): Promise<Tokens> {
+  private async generateTokens(userId: number, email: string): Promise<Tokens> {
     const payload: JwtPayload = { sub: userId, email };
 
     const [access_token, refresh_token] = await Promise.all([
