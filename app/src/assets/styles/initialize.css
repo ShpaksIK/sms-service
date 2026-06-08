@@ -52,6 +52,22 @@
   --color-line-hover: #dddddd;
   --color-element-secondary: #a4a4a4;
 
+  --color-alert-error-border: #f5c2c7;
+  --color-alert-error-background: #f8d7da;
+  --color-alert-error-text: #842029;
+
+  --color-alert-info-border: #b6d4fe;
+  --color-alert-info-background: #cfe2ff;
+  --color-alert-info-text: #084298;
+
+  --color-alert-warning-border: #ffecb5;
+  --color-alert-warning-background: #fff3cd;
+  --color-alert-warning-text: #664d03;
+
+  --color-alert-success-border: #badbcc;
+  --color-alert-success-background: #d1e7dd;
+  --color-alert-success-text: #0f5132;
+
   /* Шрифты */
   --font-family-base: 'Moderustic', sans-serif;
   --font-family-accent: 'MontserratAlternates', sans-serif;

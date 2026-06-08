@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import HomeLayout from '@/layouts/HomeLayout.vue';
 import Modal from '@/components/Modal.vue';
 import ChangeProfileForm from '@/components/ChangeProfileForm.vue';
@@ -17,10 +17,6 @@ const router = useRouter();
 const firstName = computed(() => userStore.firstName);
 const email = computed(() => userStore.email);
 const createdAt = computed(() => userStore.createdAt);
-
-onMounted(() => {
-  userStore.fetchUser();
-});
 
 const onLogout = async () => {
   try {

@@ -3,6 +3,7 @@ import { userAPI } from '@/api/user';
 import type { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
+import { useAlertStore } from './alert';
 
 interface UserData {
   id: string;
@@ -31,6 +32,8 @@ export const useUserStore = defineStore('user', () => {
   const createdAt = computed(() => user.value.createdAt);
   const isUserLoaded = computed(() => !!user.value.id);
 
+  const alertStore = useAlertStore();
+
   const fetchUser = async () => {
     loading.value = true;
     error.value = null;
@@ -50,6 +53,10 @@ export const useUserStore = defineStore('user', () => {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       error.value = axiosError.response?.data?.message || 'Ошибка загрузки профиля';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка загрузки профиля',
+        type: 'error'
+      });
       throw err;
     } finally {
       loading.value = false;
@@ -74,6 +81,10 @@ export const useUserStore = defineStore('user', () => {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       error.value = axiosError.response?.data?.message || 'Ошибка обновления профиля';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка обновления профиля',
+        type: 'error'
+      });
       throw err;
     } finally {
       updateLoading.value = false;
@@ -94,6 +105,10 @@ export const useUserStore = defineStore('user', () => {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       error.value = axiosError.response?.data?.message || 'Ошибка обновления пароля';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка обновления пароля',
+        type: 'error'
+      });
       throw err;
     } finally {
       updateLoading.value = false;
@@ -116,6 +131,10 @@ export const useUserStore = defineStore('user', () => {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       error.value = axiosError.response?.data?.message || 'Ошибка входа';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка входа',
+        type: 'error'
+      });
       throw err;
     } finally {
       authLoading.value = false;
@@ -136,6 +155,10 @@ export const useUserStore = defineStore('user', () => {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       error.value = axiosError.response?.data?.message || 'Ошибка регистрации';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка регистрации',
+        type: 'error'
+      });
       throw err;
     } finally {
       authLoading.value = false;
@@ -158,6 +181,10 @@ export const useUserStore = defineStore('user', () => {
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
       error.value = axiosError.response?.data?.message || 'Ошибка при выходе';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка при выходе',
+        type: 'error'
+      });
       throw err;
     } finally {
       authLoading.value = false;

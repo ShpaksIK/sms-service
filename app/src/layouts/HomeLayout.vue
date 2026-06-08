@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import AppHeader from '@/components/AppHeader.vue';
 import AppNav from '@/components/AppNav.vue';
+import { useUserStore } from '@/stores/user';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
+const userStore = useUserStore();
 const router = useRouter();
+
+onMounted(() => {
+  userStore.fetchUser();
+});
 
 onMounted(() => {
   const accessToken = localStorage.getItem('accessToken');
