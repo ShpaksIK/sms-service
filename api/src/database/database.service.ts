@@ -73,4 +73,44 @@ export class DatabaseService implements OnModuleDestroy {
   getPool() {
     return this.pool;
   }
+
+  async saveOutgoingMessage(
+    userId: string,
+    phoneNumber: string,
+    message: string,
+    externalId?: string,
+    status: string = 'sent',
+  ): Promise<any> {
+    const query = `
+    INSERT INTO "message" (id, id_conversation, text, type, created_at)
+    VALUES (uuid_generate_v4(), $1, $2, 'outgoing', now())
+    RETURNING id
+  `;
+
+    // Сначала находим или создаем conversation
+    const conversationQuery = `
+    SELECT id FROM "conversation" 
+    WHERE id_user = $1 AND contact_number = $2
+    LIMIT 1
+  `;
+
+    let conversation = await this.query(conversationQuery, [
+      userId,
+      phoneNumber,
+    ]);
+
+    let conversationId;
+    if (conversation.rows.length === 0) {
+      const newConversation = await this.query(
+        `INSERT INTO "conversation" (id_user, contact_number) VALUES ($1, $2) RETURNING id`,
+        [userId, phoneNumber],
+      );
+      conversationId = newConversation.rows[0].id;
+    } else {
+      conversationId = conversation.rows[0].id;
+    }
+
+    const result = await this.query(query, [conversationId, message]);
+    return { id: result.rows[0].id };
+  }
 }
