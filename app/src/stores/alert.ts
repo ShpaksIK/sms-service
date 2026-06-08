@@ -21,20 +21,20 @@ export const useAlertStore = defineStore('alert', () => {
 
   const setAlert = async (data: AlertData) => {
     alert.value = {
-      ...data
+      ...data,
     };
 
     setTimeout(() => {
       disableAlert();
-    }, 5000)
+    }, 5000);
   };
 
   const disableAlert = async () => {
     alert.value = {
       content: '',
-      type: null
+      type: null,
     };
-  }
+  };
 
   return {
     alert,
@@ -43,6 +43,6 @@ export const useAlertStore = defineStore('alert', () => {
     type,
 
     setAlert,
-    disableAlert
+    disableAlert,
   };
 });
