@@ -84,4 +84,24 @@ export class SmsService {
       );
     }
   }
+
+  async getUserMessages(userId: string) {
+    const query = `
+      SELECT 
+        m.id,
+        m.text,
+        m.type,
+        m.created_at,
+        c.contact_number,
+        'pending' as status
+      FROM message m
+      JOIN conversation c ON m.id_conversation = c.id
+      WHERE c.id_user = $1
+      ORDER BY m.created_at DESC
+      LIMIT 100
+    `;
+    
+    const messages = await this.databaseService.query(query, [userId]);
+    return messages.rows;
+  }
 }

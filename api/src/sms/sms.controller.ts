@@ -1,4 +1,4 @@
-import { Body, Controller, Post, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards, UsePipes } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { SmsService } from './sms.service';
 import { SendSmsDto } from './dto/send-sms.dto';
@@ -31,5 +31,12 @@ export class SmsController {
       cost: result.cost,
       count: result.cnt,
     };
+  }
+
+  @Get()
+  @UseGuards(JwtAuthGuard)
+  async getUserMessages(@CurrentUser() user: RequestUser) {
+    const userId = user.userId;
+    return await this.smsService.getUserMessages(userId);
   }
 }

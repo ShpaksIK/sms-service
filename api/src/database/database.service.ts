@@ -82,12 +82,11 @@ export class DatabaseService implements OnModuleDestroy {
     status: string = 'sent',
   ): Promise<any> {
     const query = `
-    INSERT INTO "message" (id, id_conversation, text, type, created_at)
-    VALUES (uuid_generate_v4(), $1, $2, 'outgoing', now())
+    INSERT INTO "message" (id_conversation, text, type, created_at)
+    VALUES ($1, $2, 'outgoing', now())
     RETURNING id
   `;
 
-    // Сначала находим или создаем conversation
     const conversationQuery = `
     SELECT id FROM "conversation" 
     WHERE id_user = $1 AND contact_number = $2
