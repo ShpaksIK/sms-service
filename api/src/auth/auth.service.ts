@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { DatabaseService } from 'src/database/database.service';
 import { RegisterDto } from './dto/register.dto';
 import { JwtPayload, Tokens } from './../common/types/tokens.type';
-import bcrypt from 'node_modules/bcryptjs';
+import bcrypt from 'bcryptjs';
 import { ChangePasswordDto, LoginDto } from './dto/login.dto';
 
 @Injectable()

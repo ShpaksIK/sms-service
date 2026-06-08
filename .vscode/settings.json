@@ -9,5 +9,15 @@
     "source.fixAll": "explicit"
   },
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "postman.settings.dotenv-detection-notification-visibility": false,
+
+  "vetur.experimental.templateInterpolationService": true,
+  "vetur.useWorkspaceDependencies": true,
+  "vetur.validation.template": true,
+  "vetur.validation.script": true,
+  "vetur.validation.style": true,
+  
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
