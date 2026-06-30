@@ -1,6 +1,23 @@
-import { IsString, IsNotEmpty, MaxLength, Matches } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MaxLength,
+  Matches,
+  IsUUID,
+  IsNumber,
+  Min,
+  IsOptional,
+} from 'class-validator';
 
 export class SendSmsDto {
+  @IsUUID()
+  @IsNotEmpty()
+  deviceId: string;
+
+  @IsNumber()
+  @Min(0)
+  simSlot: number;
+
   @IsString()
   @IsNotEmpty()
   @Matches(/^\+?[0-9]{10,15}$/, {
@@ -11,6 +28,10 @@ export class SendSmsDto {
 
   @IsString()
   @IsNotEmpty()
-  @MaxLength(800, { message: 'Сообщение не может превышать 800 символов' })
-  message: string;
+  @MaxLength(800)
+  text: string;
+
+  @IsOptional()
+  @IsString()
+  scheduledAt?: string;
 }

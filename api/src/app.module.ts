@@ -7,6 +7,7 @@ import { ValidationPipe } from './common/validations/validation.pipe';
 import { APP_PIPE } from '@nestjs/core';
 import { UserModule } from './user/user.module';
 import { SmsModule } from './sms/sms.module';
+import { DeviceModule } from './device/device.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SmsModule } from './sms/sms.module';
     AuthModule,
     UserModule,
     SmsModule,
+    DeviceModule,
   ],
   controllers: [],
   providers: [

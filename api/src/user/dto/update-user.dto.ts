@@ -1,9 +1,4 @@
-import {
-  IsEmail,
-  IsString,
-  MaxLength,
-  MinLength,
-} from 'class-validator';
+import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
 import { PartialType } from 'nestjs-mapped-types';
 
 class CreateUserDto {
