@@ -4,6 +4,7 @@ import type { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
 import { useAlertStore } from './alert';
+import { useRouter } from 'vue-router';
 
 interface UserData {
   id: string;
@@ -28,6 +29,7 @@ export const useUserStore = defineStore('user', () => {
   const isUserLoaded = computed(() => !!user.value?.id);
 
   const alertStore = useAlertStore();
+  const router = useRouter();
 
   const fetchUser = async () => {
     loading.value = true;
@@ -169,8 +171,36 @@ export const useUserStore = defineStore('user', () => {
       const response = await authAPI.logout();
 
       authSuccess.value = true;
-
       localStorage.removeItem('accessToken');
+
+      router.push('/sign-in');
+
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message: string }>;
+      error.value = axiosError.response?.data?.message || 'Ошибка при выходе';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка при выходе',
+        type: 'error',
+      });
+      throw err;
+    } finally {
+      authLoading.value = false;
+    }
+  };
+
+  const deleteProfile = async () => {
+    error.value = null;
+    authLoading.value = true;
+    authSuccess.value = false;
+
+    try {
+      const response = await userAPI.delete();
+
+      authSuccess.value = false;
+      localStorage.removeItem('accessToken');
+
+      router.push('/sign-in');
 
       return response.data;
     } catch (err) {
@@ -205,5 +235,6 @@ export const useUserStore = defineStore('user', () => {
     login,
     registration,
     logout,
+    deleteProfile,
   };
 });
