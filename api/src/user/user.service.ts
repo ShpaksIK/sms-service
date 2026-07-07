@@ -17,7 +17,7 @@ export class UserService {
   async getMe(userId: string) {
     const data = await this.databaseService.query(
       `SELECT id, email, first_name as "firstName", 
-      fcm_token as "fcmToken", created_at as "createdAt", updated_at as "updatedAt"
+      created_at as "createdAt", updated_at as "updatedAt"
       FROM "user" WHERE id = $1`,
       [userId],
     );
