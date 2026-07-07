@@ -1,25 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { formatSmsDate } from '@/utils/dateFormatter';
-import { smsAPI } from '@/api/sms';
-import { useAlertStore } from '@/stores/alert';
+import { ref, computed, onMounted } from 'vue';
+import { formatDate } from '@/utils/dateFormatter';
+import { useSmsStore } from '@/stores/sms';
+import type { Sms } from '@/types/SmsType';
+import MessageMoreModal from '@/components/MessageMoreModal.vue';
 
-const alertStore = useAlertStore();
+const smsStore = useSmsStore();
 
-interface Message {
-  id: string;
-  text: string;
-  type: 'incoming' | 'outgoing';
-  contact_number: string;
-  created_at: string;
-  status?: string;
-  cost?: number;
-  source?: string;
-}
-
-const messages = ref<Message[]>([]);
-const loading = ref(true);
-const error = ref<string | null>(null);
+const sms = computed(() => smsStore.sms);
+const loading = computed(() => smsStore.loading);
+const openCurrentMessageMoreModal = ref<Sms | null>(null);
 
 const getStatusText = (status?: string) => {
   switch (status) {
@@ -53,22 +43,17 @@ const getStatusClass = (status?: string) => {
   }
 };
 
-const loadMessages = async () => {
-  loading.value = true;
-  error.value = null;
+const openMessageMoreModal = (message: Sms) => {
+  openCurrentMessageMoreModal.value = message;
+};
+const closeMessageMoreModal = () => {
+  openCurrentMessageMoreModal.value = null;
+};
 
+const loadMessages = async () => {
   try {
-    const response = await smsAPI.get();
-    messages.value = response.data.data;
-  } catch (err: any) {
-    error.value = err.response?.data?.message || 'Не удалось загрузить сообщения';
-    alertStore.setAlert({
-      content: error.value || 'Не удалось загрузить сообщения',
-      type: 'error',
-    });
-  } finally {
-    loading.value = false;
-  }
+    await smsStore.fetchSms();
+  } catch {}
 };
 
 onMounted(() => {
@@ -79,16 +64,21 @@ onMounted(() => {
 <template>
   <div class="sms-container">
     <div class="sms-container">
+      <MessageMoreModal
+        :message="openCurrentMessageMoreModal"
+        :close-message-more-modal="closeMessageMoreModal"
+        v-if="openCurrentMessageMoreModal"
+      ></MessageMoreModal>
+
       <div class="sms-header">
-        <h2>История сообщений</h2>
         <button @click="loadMessages" class="refresh-btn" :disabled="loading">
           {{ loading ? 'Обновление...' : 'Обновить' }}
         </button>
       </div>
 
-      <div v-if="loading && messages.length === 0" class="loading-state">Загрузка сообщений...</div>
+      <div v-if="loading && sms.length === 0" class="loading-state">Загрузка сообщений...</div>
 
-      <div v-else-if="messages.length === 0" class="empty-state">Нет сообщений</div>
+      <div v-else-if="sms.length === 0" class="empty-state">Нет сообщений</div>
 
       <div v-else class="table-wrapper">
         <table class="sms-table">
@@ -99,28 +89,32 @@ onMounted(() => {
               <th>Сообщение</th>
               <th>Дата</th>
               <th>Статус</th>
+              <th>Действия</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="message in messages" :key="message.id">
+            <tr v-for="message in sms" :key="message.id">
               <td class="type-cell">
                 <span :class="['type-badge', message.type]">
                   {{ message.type === 'incoming' ? 'Входящее' : 'Исходящее' }}
                 </span>
               </td>
               <td class="phone-cell">
-                {{ message.contact_number }}
+                {{ message.phone_number }}
               </td>
               <td class="message-cell" :title="message.text">
                 {{ message.text }}
               </td>
               <td class="date-cell">
-                {{ formatSmsDate(message.created_at) }}
+                {{ formatDate(message.created_at) }}
               </td>
               <td class="status-cell">
                 <span :class="['status-badge', getStatusClass(message.status)]">
                   {{ getStatusText(message.status) }}
                 </span>
+              </td>
+              <td class="controllers">
+                <button class="btn" @click="openMessageMoreModal(message)">Подробнее</button>
               </td>
             </tr>
           </tbody>
@@ -309,6 +303,12 @@ onMounted(() => {
   background: var(--color-element-transparent);
   border-radius: var(--border-radius-small);
   color: var(--color-element-hover);
+}
+
+.controllers {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 @media (max-width: 700px) {

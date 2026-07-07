@@ -14,7 +14,7 @@ export const formatTimestamp = (timestamp: any): string => {
   return `${day}.${month}.${year} в ${hours}:${minutes}`;
 };
 
-export const formatSmsDate = (dateString: string) => {
+export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -22,10 +22,18 @@ export const formatSmsDate = (dateString: string) => {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'Только что';
-  if (diffMins < 60) return `${diffMins} мин назад`;
-  if (diffHours < 24) return `${diffHours} ч назад`;
-  if (diffDays < 7) return `${diffDays} дн назад`;
+  if (diffMins < 1) {
+    return 'Только что';
+  }
+  if (diffMins < 60) {
+    return `${diffMins} мин назад`;
+  }
+  if (diffHours < 24) {
+    return `${diffHours} ч назад`;
+  }
+  if (diffDays < 7) {
+    return `${diffDays} дн назад`;
+  }
 
   return date.toLocaleDateString('ru-RU', {
     day: '2-digit',

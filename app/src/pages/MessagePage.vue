@@ -5,7 +5,7 @@ import HomeLayout from './../layouts/HomeLayout.vue';
 
 <template>
   <home-layout>
-    <h1>SMS</h1>
+    <h1>История сообщений</h1>
     <sms-history-table></sms-history-table>
   </home-layout>
 </template>

@@ -13,12 +13,7 @@ interface UserData {
 }
 
 export const useUserStore = defineStore('user', () => {
-  const user = ref<UserData>({
-    id: '',
-    firstName: '',
-    email: '',
-    createdAt: null,
-  });
+  const user = ref<UserData | null>(null);
   const loading = ref(false);
   const error = ref<string | null>(null);
   const updateLoading = ref(false);
@@ -26,11 +21,11 @@ export const useUserStore = defineStore('user', () => {
   const authLoading = ref(false);
   const authSuccess = ref(false);
 
-  const id = computed(() => user.value.id);
-  const firstName = computed(() => user.value.firstName);
-  const email = computed(() => user.value.email);
-  const createdAt = computed(() => user.value.createdAt);
-  const isUserLoaded = computed(() => !!user.value.id);
+  const id = computed(() => user.value?.id);
+  const firstName = computed(() => user.value?.firstName);
+  const email = computed(() => user.value?.email);
+  const createdAt = computed(() => user.value?.createdAt);
+  const isUserLoaded = computed(() => !!user.value?.id);
 
   const alertStore = useAlertStore();
 
