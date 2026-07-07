@@ -19,7 +19,10 @@ export class DeviceService {
     );
 
     if (existing.rows.length > 0) {
-      throw new HttpException('Device already registered', HttpStatus.CONFLICT);
+      throw new HttpException(
+        'Устройство уже зарегистрированно',
+        HttpStatus.CONFLICT,
+      );
     }
 
     const query = `
@@ -53,7 +56,7 @@ export class DeviceService {
     );
 
     if (device.rows.length === 0) {
-      throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Устройство не найдено', HttpStatus.NOT_FOUND);
     }
 
     const updates: string[] = [];
@@ -155,7 +158,7 @@ export class DeviceService {
     const result = await this.databaseService.query(query, [deviceId, userId]);
 
     if (result.rows.length === 0) {
-      throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Устройство не найдено', HttpStatus.NOT_FOUND);
     }
 
     return result.rows[0];
@@ -171,10 +174,8 @@ export class DeviceService {
     const result = await this.databaseService.query(query, [deviceId, userId]);
 
     if (result.rows.length === 0) {
-      throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Устройство не найдено', HttpStatus.NOT_FOUND);
     }
-
-    return { success: true, message: 'Device deleted successfully' };
   }
 
   async syncSimCards(userId: string, deviceId: string, simCards: any[]) {
@@ -184,7 +185,7 @@ export class DeviceService {
     );
 
     if (device.rows.length === 0) {
-      throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Устройство не найдено', HttpStatus.NOT_FOUND);
     }
 
     await this.databaseService.query(
@@ -212,7 +213,5 @@ export class DeviceService {
       `UPDATE device SET last_sync_at = now() WHERE id = $1`,
       [deviceId],
     );
-
-    return { success: true, message: 'SIM cards synced successfully' };
   }
 }

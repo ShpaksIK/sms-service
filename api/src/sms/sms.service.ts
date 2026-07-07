@@ -18,11 +18,11 @@ export class SmsService {
     );
 
     if (device.rows.length === 0) {
-      throw new HttpException('Device not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Устройство не найдено', HttpStatus.NOT_FOUND);
     }
 
     if (device.rows[0].status === 'offline') {
-      throw new HttpException('Device is offline', HttpStatus.BAD_REQUEST);
+      throw new HttpException('Устройство офлайн', HttpStatus.BAD_REQUEST);
     }
 
     const simCard = await this.databaseService.query(
@@ -32,7 +32,7 @@ export class SmsService {
 
     if (simCard.rows.length === 0) {
       throw new HttpException(
-        'Active SIM card not found for this slot',
+        'Активная SIM-карта для этого слота не найдена',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -134,7 +134,7 @@ export class SmsService {
     const result = await this.databaseService.query(query, [messageId, userId]);
 
     if (result.rows.length === 0) {
-      throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Сообщение не найдено', HttpStatus.NOT_FOUND);
     }
 
     return result.rows[0];
@@ -153,7 +153,7 @@ export class SmsService {
     );
 
     if (message.rows.length === 0) {
-      throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Сообщение не найдено', HttpStatus.NOT_FOUND);
     }
 
     const updates: string[] = [];
