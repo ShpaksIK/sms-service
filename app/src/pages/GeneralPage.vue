@@ -1,34 +1,60 @@
 <script setup lang="ts">
+import { useSmsStore } from '@/stores/sms.ts';
 import HomeLayout from '../layouts/HomeLayout.vue';
+import { computed, onMounted } from 'vue';
+import { formatTimestamp } from '@/utils/dateFormatter.ts';
+
+const smsStore = useSmsStore();
+const smsStats = computed(() => smsStore.smsStats);
+
+const fetchStats = async () => {
+  await smsStore.fetchStats();
+};
+
+onMounted(() => {
+  fetchStats();
+});
 </script>
 
 <template>
   <home-layout>
     <h2>Статистика</h2>
-    <div class="general__stats">
+    <p v-if="!smsStats">Загрузка...</p>
+
+    <div v-else class="general__stats">
       <div class="general__stats__stat">
-        <b>0</b>
-        <p class="general__stats__stat_blue">Отправлено всего</p>
+        <b>{{ smsStats.total }}</b>
+        <p class="general__stats__stat_yellow">Всего</p>
       </div>
 
       <div class="general__stats__stat">
-        <b>0</b>
+        <b>{{ smsStats.incoming }}</b>
+        <p class="general__stats__stat_blue">Входящие</p>
+      </div>
+
+      <div class="general__stats__stat">
+        <b>{{ smsStats.outgoing }}</b>
+        <p class="general__stats__stat_light_blue">Исходящие</p>
+      </div>
+
+      <div class="general__stats__stat">
+        <b>{{ smsStats.delivered }}</b>
         <p class="general__stats__stat_green">Доставлено</p>
       </div>
 
       <div class="general__stats__stat">
-        <b>0</b>
-        <p class="general__stats__stat_light-blue">Не доставлено</p>
+        <b>{{ smsStats.failed }}</b>
+        <p class="general__stats__stat_red">Не удалось</p>
       </div>
 
       <div class="general__stats__stat">
-        <b>0</b>
-        <p class="general__stats__stat_red">С ошибкой отправки</p>
+        <b>{{ smsStats.pending }}</b>
+        <p class="general__stats__stat_gray">Ожидающие</p>
       </div>
 
-      <div class="general__stats__stat">
-        <b>0</b>
-        <p class="general__stats__stat_yellow">С ошибкой доставки</p>
+      <div class="general__stats__stat" v-if="smsStats.last_message_at">
+        <b>{{ formatTimestamp(smsStats.last_message_at) }}</b>
+        <p class="general__stats__stat_dark_gray">Последнее сообщение</p>
       </div>
     </div>
   </home-layout>
@@ -65,7 +91,7 @@ import HomeLayout from '../layouts/HomeLayout.vue';
   color: rgb(40 199 111);
 }
 
-.general__stats__stat_light-blue {
+.general__stats__stat_light_blue {
   color: rgb(6, 182, 212);
 }
 
@@ -75,5 +101,13 @@ import HomeLayout from '../layouts/HomeLayout.vue';
 
 .general__stats__stat_yellow {
   color: rgb(255 159 67);
+}
+
+.general__stats__stat_gray {
+  color: rgb(164, 164, 164);
+}
+
+.general__stats__stat_dark_gray {
+  color: rgb(68, 68, 68);
 }
 </style>

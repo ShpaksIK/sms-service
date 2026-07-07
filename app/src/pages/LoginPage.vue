@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue';
+import { computed, onMounted, reactive } from 'vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
 import { useUserStore } from './../stores/user';
 import { useRouter } from 'vue-router';
@@ -13,7 +13,9 @@ const formData = reactive({
 });
 
 const handleSubmit = async () => {
-  if (!isFormValid.value) return;
+  if (!isFormValid.value) {
+    return;
+  }
 
   try {
     await userStore.login({
@@ -33,7 +35,9 @@ const isFormValid = computed(() => {
 });
 
 const passwordError = computed(() => {
-  if (formData.password === '') return;
+  if (formData.password === '') {
+    return;
+  }
   if (formData.password.length < 5) {
     return 'Минимальная длина пароля - 5 символов';
   } else if (formData.password.length > 255) {
@@ -43,13 +47,30 @@ const passwordError = computed(() => {
 });
 
 const emailError = computed(() => {
-  if (formData.email === '') return;
+  if (formData.email === '') {
+    return;
+  }
   if (formData.email.length > 255) {
     return 'Минимальная длина email - 255 символов';
   } else if (!/^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(formData.email)) {
     return 'Некорректный формат email';
   }
   return '';
+});
+
+// Check user auth
+const user = computed(() => userStore.user);
+
+const fetchUser = async () => {
+  await userStore.fetchUser();
+
+  if (user.value) {
+    router.push('/');
+  }
+};
+
+onMounted(() => {
+  fetchUser();
 });
 </script>
 

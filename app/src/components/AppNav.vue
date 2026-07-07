@@ -22,6 +22,13 @@ const isActive = (path: string) => {
     >
 
     <router-link
+      :to="{ name: 'Devices' }"
+      class="nav__link"
+      :class="{ nav__link_active: isActive('/devices') }"
+      >Устройства</router-link
+    >
+
+    <router-link
       :to="{ name: 'Messages' }"
       class="nav__link"
       :class="{ nav__link_active: isActive('/sms') }"

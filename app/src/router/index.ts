@@ -1,3 +1,4 @@
+import DevicePage from '@/pages/DevicePage.vue';
 import GeneralPage from '@/pages/GeneralPage.vue';
 import LoginPage from '@/pages/LoginPage.vue';
 import MessagePage from '@/pages/MessagePage.vue';
@@ -22,6 +23,11 @@ const router = createRouter({
       path: '/',
       name: 'General',
       component: GeneralPage,
+    },
+    {
+      path: '/devices',
+      name: 'Devices',
+      component: DevicePage,
     },
     {
       path: '/sms',
