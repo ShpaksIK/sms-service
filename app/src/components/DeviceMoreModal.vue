@@ -56,10 +56,10 @@ const removeDevice = async (id: string) => {
         <p
           :class="[
             'sim-status',
-            props.device.status ? 'sim-status-active' : 'sim-status-no-active',
+            props.device.status === 'online' ? 'sim-status-active' : 'sim-status-no-active',
           ]"
         >
-          {{ props.device.status ? 'Онлайн' : 'Офлайн' }}
+          {{ props.device.status === 'online' ? 'Онлайн' : 'Офлайн' }}
         </p>
       </div>
       <div class="field">
@@ -80,7 +80,7 @@ const removeDevice = async (id: string) => {
         <b>Создан</b>
         <p>{{ formatTimestamp(props.device.created_at) }}</p>
       </div>
-      <div class="field">
+      <div class="field" v-if="props.device.sim_cards.length > 0">
         <b>SIM карты</b>
         <div class="field-group" v-for="card in props.device.sim_cards" :key="card.id">
           <div>

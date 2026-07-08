@@ -26,7 +26,6 @@ const formData = ref<SmsSend & { device?: Device | null }>({
 });
 
 const isFormValid = computed(() => {
-  console.log(formData.value);
   return (
     formData.value.phoneNumber.length >= 11 &&
     formData.value.phoneNumber.length <= 32 &&
