@@ -80,8 +80,8 @@ const removeDevice = async (id: string) => {
         <b>Создан</b>
         <p>{{ formatTimestamp(props.device.created_at) }}</p>
       </div>
-      <div class="field" v-if="props.device.sim_cards.length > 0">
-        <b>SIM карты</b>
+      <div class="field" v-if="props.device.sim_cards[0] && props.device.sim_cards[0].phone_number">
+        <b>SIM карта</b>
         <div class="field-group" v-for="card in props.device.sim_cards" :key="card.id">
           <div>
             <b>Оператор</b>
@@ -105,8 +105,8 @@ const removeDevice = async (id: string) => {
           </div>
         </div>
       </div>
-      <button class="btn_danger" type="button" @click="openAgreeRemove">Удалить</button>
     </div>
+    <button class="btn_danger" type="button" @click="openAgreeRemove">Удалить</button>
   </Modal>
 </template>
 
