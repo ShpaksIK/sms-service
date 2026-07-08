@@ -55,7 +55,7 @@ export class DatabaseService implements OnModuleDestroy {
     return this.client;
   }
 
-  async release() {
+  release() {
     if (this.client) {
       this.client.release();
       this.client = null;
@@ -78,8 +78,6 @@ export class DatabaseService implements OnModuleDestroy {
     userId: string,
     phoneNumber: string,
     message: string,
-    externalId?: string,
-    status: string = 'sent',
   ): Promise<any> {
     const query = `
     INSERT INTO "message" (id_conversation, text, type, created_at)
@@ -93,7 +91,7 @@ export class DatabaseService implements OnModuleDestroy {
     LIMIT 1
   `;
 
-    let conversation = await this.query(conversationQuery, [
+    const conversation = await this.query(conversationQuery, [
       userId,
       phoneNumber,
     ]);

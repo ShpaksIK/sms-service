@@ -132,7 +132,7 @@ export class AuthService {
       );
 
       return tokens;
-    } catch (error) {
+    } catch {
       throw new ForbiddenException('Неверный токен');
     }
   }

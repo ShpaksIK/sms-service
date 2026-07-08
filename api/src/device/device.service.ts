@@ -1,4 +1,5 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
+import { SimCard } from 'src/common/types/sim-card.type';
 import { DatabaseService } from 'src/database/database.service';
 import { CreateDeviceDto } from 'src/device/dto/create-device.dto';
 import { UpdateDeviceDto } from 'src/device/dto/update-device.dto';
@@ -178,7 +179,7 @@ export class DeviceService {
     }
   }
 
-  async syncSimCards(userId: string, deviceId: string, simCards: any[]) {
+  async syncSimCards(userId: string, deviceId: string, simCards: SimCard[]) {
     const device = await this.databaseService.query(
       `SELECT id FROM device WHERE id = $1 AND id_user = $2`,
       [deviceId, userId],

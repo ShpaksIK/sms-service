@@ -18,6 +18,7 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import type { RequestUser } from 'src/common/types/tokens.type';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseMessage } from 'src/common/decorators/response.decorator';
+import { SimCard } from 'src/common/types/sim-card.type';
 
 @ApiTags('device')
 @Controller('device')
@@ -106,7 +107,7 @@ export class DeviceController {
   async syncSimCards(
     @CurrentUser() user: RequestUser,
     @Param('deviceId') deviceId: string,
-    @Body() body: { simCards: any[] },
+    @Body() body: { simCards: SimCard[] },
   ) {
     const userId = user.userId;
     return await this.devicesService.syncSimCards(
