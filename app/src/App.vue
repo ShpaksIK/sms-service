@@ -6,7 +6,11 @@ import Alert from '@/components/Alert.vue';
 const userStore = useUserStore();
 
 onMounted(() => {
-  userStore.fetchUser();
+  const access_token = localStorage.getItem('accessToken');
+
+  if (access_token) {
+    userStore.fetchUser();
+  }
 });
 </script>
 

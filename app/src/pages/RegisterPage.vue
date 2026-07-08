@@ -14,6 +14,8 @@ const formData = reactive({
   confirmPassword: '',
 });
 
+const authSuccess = computed(() => userStore.authSuccess);
+
 const handleSubmit = async () => {
   if (!isFormValid.value) {
     return;
@@ -25,7 +27,11 @@ const handleSubmit = async () => {
       firstName: formData.firstName,
       password: formData.password,
     });
-    router.push('/sign-in');
+
+    if (authSuccess.value) {
+      userStore.authSuccess = false;
+      router.push('/sign-in');
+    }
   } catch (error) {}
 };
 
@@ -96,7 +102,10 @@ const fetchUser = async () => {
 };
 
 onMounted(() => {
-  fetchUser();
+  const access_token = localStorage.getItem('accessToken');
+  if (access_token) {
+    fetchUser();
+  }
 });
 </script>
 

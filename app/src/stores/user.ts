@@ -48,7 +48,8 @@ export const useUserStore = defineStore('user', () => {
 
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка загрузки профиля';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка загрузки профиля',
@@ -76,7 +77,8 @@ export const useUserStore = defineStore('user', () => {
 
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка обновления профиля';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка обновления профиля',
@@ -100,7 +102,8 @@ export const useUserStore = defineStore('user', () => {
 
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка обновления пароля';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка обновления пароля',
@@ -116,17 +119,17 @@ export const useUserStore = defineStore('user', () => {
     error.value = null;
     authLoading.value = true;
     authSuccess.value = false;
-
     try {
       const response = await authAPI.login(data);
 
       authSuccess.value = true;
 
-      localStorage.setItem('accessToken', response.data.access_token);
+      localStorage.setItem('accessToken', response.data.data.access_token);
 
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка входа';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка входа',
@@ -148,9 +151,15 @@ export const useUserStore = defineStore('user', () => {
 
       authSuccess.value = true;
 
+      alertStore.setAlert({
+        content: response.data.message,
+        type: 'success',
+      });
+
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка регистрации';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка регистрации',
@@ -177,7 +186,8 @@ export const useUserStore = defineStore('user', () => {
 
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка при выходе';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка при выходе',
@@ -204,7 +214,8 @@ export const useUserStore = defineStore('user', () => {
 
       return response.data;
     } catch (err) {
-      const axiosError = err as AxiosError<{ message: string }>;
+      const axiosError = err as AxiosError<{ message: string; status: number; success: boolean }>;
+
       error.value = axiosError.response?.data?.message || 'Ошибка при выходе';
       alertStore.setAlert({
         content: axiosError.response?.data.message || 'Ошибка при выходе',
@@ -223,6 +234,8 @@ export const useUserStore = defineStore('user', () => {
     updateLoading,
     updateSuccess,
     isUserLoaded,
+    authLoading,
+    authSuccess,
 
     id,
     firstName,

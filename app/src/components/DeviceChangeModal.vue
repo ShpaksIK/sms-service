@@ -22,7 +22,9 @@ const isFormValid = computed(() => {
 });
 
 const handleSubmit = async () => {
-  if (!isFormValid.value) return;
+  if (!isFormValid.value) {
+    return;
+  }
 
   try {
     await deviceStore.updateDevice(props.device.id, formData.value);
@@ -36,12 +38,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-  <Modal
-    @close="closeDeviceChangeModal"
-    v-model="props.device"
-    title="Редактирование"
-    close-on-overlay-click
-  >
+  <Modal @close="closeDeviceChangeModal" v-model="props.device" title="Редактирование">
     <form class="modal" @submit.prevent="handleSubmit">
       <div class="form__control">
         <label for="firstName">Название</label>

@@ -3,8 +3,10 @@ import { useSmsStore } from '@/stores/sms.ts';
 import HomeLayout from '../layouts/HomeLayout.vue';
 import { computed, onMounted } from 'vue';
 import { formatTimestamp } from '@/utils/dateFormatter.ts';
+import { useUserStore } from '@/stores/user.ts';
 
 const smsStore = useSmsStore();
+const userStore = useUserStore();
 const smsStats = computed(() => smsStore.smsStats);
 
 const fetchStats = async () => {
@@ -12,7 +14,11 @@ const fetchStats = async () => {
 };
 
 onMounted(() => {
-  fetchStats();
+  const access_token = localStorage.getItem('accessToken');
+
+  if (access_token) {
+    fetchStats();
+  }
 });
 </script>
 

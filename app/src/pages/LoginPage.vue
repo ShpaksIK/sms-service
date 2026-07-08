@@ -7,6 +7,8 @@ import { useRouter } from 'vue-router';
 const userStore = useUserStore();
 const router = useRouter();
 
+const authSuccess = computed(() => userStore.authSuccess);
+
 const formData = reactive({
   email: '',
   password: '',
@@ -22,7 +24,9 @@ const handleSubmit = async () => {
       email: formData.email,
       password: formData.password,
     });
-    router.push('/');
+    if (authSuccess.value) {
+      router.push('/');
+    }
   } catch (error) {}
 };
 
@@ -70,7 +74,10 @@ const fetchUser = async () => {
 };
 
 onMounted(() => {
-  fetchUser();
+  const access_token = localStorage.getItem('accessToken');
+  if (access_token) {
+    fetchUser();
+  }
 });
 </script>
 
