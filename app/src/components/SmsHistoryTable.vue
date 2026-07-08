@@ -4,12 +4,15 @@ import { formatDate } from '@/utils/dateFormatter';
 import { useSmsStore } from '@/stores/sms';
 import type { Sms } from '@/types/SmsType';
 import MessageMoreModal from '@/components/MessageMoreModal.vue';
+import MessageAddModal from '@/components/MessageAddModal.vue';
+import { formatPhoneNumber } from '@/utils/phoneNumberFormatter';
 
 const smsStore = useSmsStore();
 
 const sms = computed(() => smsStore.sms);
 const loading = computed(() => smsStore.loading);
 const openCurrentMessageMoreModal = ref<Sms | null>(null);
+const isOpenMessageAddModal = ref<boolean>(false);
 
 const getStatusText = (status?: string) => {
   switch (status) {
@@ -50,6 +53,13 @@ const closeMessageMoreModal = () => {
   openCurrentMessageMoreModal.value = null;
 };
 
+const openMessageAddModal = () => {
+  isOpenMessageAddModal.value = true;
+};
+const closeMessageAddModal = () => {
+  isOpenMessageAddModal.value = false;
+};
+
 const loadMessages = async () => {
   try {
     await smsStore.fetchSms();
@@ -70,10 +80,14 @@ onMounted(() => {
         v-if="openCurrentMessageMoreModal"
       ></MessageMoreModal>
 
+      <MessageAddModal :close-message-add-modal="closeMessageAddModal" v-if="isOpenMessageAddModal">
+      </MessageAddModal>
+
       <div class="sms-header">
         <button @click="loadMessages" class="refresh-btn" :disabled="loading">
           {{ loading ? 'Обновление...' : 'Обновить' }}
         </button>
+        <button class="btn" @click="openMessageAddModal">+</button>
       </div>
 
       <div v-if="loading && sms.length === 0" class="loading-state">Загрузка сообщений...</div>
@@ -100,7 +114,7 @@ onMounted(() => {
                 </span>
               </td>
               <td class="phone-cell">
-                {{ message.phone_number }}
+                {{ formatPhoneNumber(message.phone_number) }}
               </td>
               <td class="message-cell" :title="message.text">
                 {{ message.text }}

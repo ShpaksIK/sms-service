@@ -37,7 +37,6 @@ instance.interceptors.response.use(
         localStorage.removeItem('accessToken');
       }
     }
-
     return Promise.reject(error);
   },
 );

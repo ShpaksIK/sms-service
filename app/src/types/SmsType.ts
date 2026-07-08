@@ -24,3 +24,10 @@ export interface SmsStats {
   pending: number;
   last_message_at: string;
 }
+
+export interface SmsSend {
+  deviceId: string;
+  simSlot: number;
+  phoneNumber: string;
+  text: string;
+}

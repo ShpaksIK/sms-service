@@ -2,6 +2,7 @@
 import Modal from '@/components/Modal.vue';
 import type { Sms, SmsStatus, SmsType } from '@/types/SmsType';
 import { formatDate, formatTimestamp } from '@/utils/dateFormatter';
+import { formatPhoneNumber } from '@/utils/phoneNumberFormatter';
 
 const props = defineProps<{
   message: Sms;
@@ -72,7 +73,7 @@ const getTypeClass = (type?: SmsType) => {
       </div>
       <div class="field">
         <b>Номер телефона</b>
-        <p>{{ props.message.phone_number }}</p>
+        <p>{{ formatPhoneNumber(props.message.phone_number) }}</p>
       </div>
       <div class="field">
         <b>Сообщение</b>

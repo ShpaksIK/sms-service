@@ -2,7 +2,7 @@ import type { AxiosError } from 'axios';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { useAlertStore } from './alert';
-import type { Sms, SmsStats } from '@/types/SmsType';
+import type { Sms, SmsSend, SmsStats } from '@/types/SmsType';
 import { smsAPI } from '@/api/sms';
 
 export const useSmsStore = defineStore('sms', () => {
@@ -71,9 +71,30 @@ export const useSmsStore = defineStore('sms', () => {
       return response.data;
     } catch (err) {
       const axiosError = err as AxiosError<{ message: string }>;
-      error.value = axiosError.response?.data?.message || 'Ошибка при загрузке SMS';
+      error.value = axiosError.response?.data?.message || 'Ошибка при загрузке статистики';
       alertStore.setAlert({
-        content: axiosError.response?.data.message || 'Ошибка при загрузке SMS',
+        content: axiosError.response?.data.message || 'Ошибка при загрузке статистики',
+        type: 'error',
+      });
+      throw err;
+    } finally {
+      loading.value = false;
+    }
+  };
+
+  const sendSms = async (data: SmsSend) => {
+    loading.value = true;
+    error.value = null;
+
+    try {
+      const response = await smsAPI.send(data);
+
+      return response.data;
+    } catch (err) {
+      const axiosError = err as AxiosError<{ message: string }>;
+      error.value = axiosError.response?.data?.message || 'Ошибка при отправке SMS';
+      alertStore.setAlert({
+        content: axiosError.response?.data.message || 'Ошибка при отправке SMS',
         type: 'error',
       });
       throw err;
@@ -94,5 +115,6 @@ export const useSmsStore = defineStore('sms', () => {
     fetchSms,
     fetchSmsById,
     fetchStats,
+    sendSms,
   };
 });

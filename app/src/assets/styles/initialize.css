@@ -284,7 +284,9 @@ a {
   text-align: left;
 }
 
-.form__control input {
+.form__control input,
+.form__control textarea,
+.form__control select {
   padding: 8px 10px;
   font-size: var(--font-family-base);
   border: 1px solid var(--color-element);
@@ -292,7 +294,13 @@ a {
   border-radius: var(--border-radius-small);
 }
 
-.form__control input:focus {
+.form__control textarea {
+  resize: vertical;
+}
+
+.form__control input:focus,
+.form__control textarea:focus,
+.form__control select:focus {
   border-color: var(--color-element-hover);
 }
 
